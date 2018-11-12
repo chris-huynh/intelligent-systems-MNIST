@@ -90,17 +90,21 @@ if __name__ == "__main__":
     dataset = dataset[:-1000]
     answers = answers[:-1000]
 
-    # neuron_count = input_neural_network_parameters()
+    neuron_count = input_neural_network_parameters()
 
     learning_rate = 0.15
     momentum_rate = 0.5
-    np.random.seed(1)
     network = []
     hidden_neurons = 150
 
-    network.append(Layer(hidden_neurons, dataset.shape[1]))
-    network.append(Layer(10, hidden_neurons))
-    # network.append(Layer(784, hidden_neurons))
+    first = True
+    for i in range(len(neuron_count)):
+        if first:
+            first = False
+            network.append(Layer(784, neuron_count[i]))
+        else:
+            network.append(Layer(neuron_count[i], neuron_count[i - 1]))
+    network.append(Layer(10, neuron_count[-1]))
     epochs = 100
     test_desired_outcome = []
     test_actual_outcome = []
